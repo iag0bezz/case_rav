@@ -24,7 +24,7 @@ import ProtectedRoute from './middlewares/authMiddleware';
 
 
 function App() {
-  const [theme, setTheme] = useState(light)
+  const [theme, setTheme] = useState(dark)
 
   const toggleTheme = useCallback(() => {
     console.log(theme)
@@ -47,11 +47,11 @@ function App() {
                 } />
               </Switch>
             </DndProvider>
+
+            <GlobalStyle />
           </ThemeProvider>
         </AuthContextProvider>
       </BrowserRouter>
-        
-      <GlobalStyle />
     </>
   );
 }

@@ -1,18 +1,17 @@
-import React from 'react'
 import {
   Container
 } from './style'
 
-import IComponentProps from '../../components/@types/componentProps'
 import { useAuth } from '../../hooks/useAuth'
+import IComponentProps from 'components/@types/componentProps'
+import LoginForm from 'components/loginForm'
 
-
-export default function Auth ({ toggleTheme }: IComponentProps) {
+export default function Auth (props: IComponentProps) {
   const { signIn } = useAuth()
 
   return (
     <Container>
-      <h1 onClick={() => signIn({ email: '', password: '' })}>Clique Aqui</h1>
+      <LoginForm signIn={signIn} />
     </Container>
   )
 }

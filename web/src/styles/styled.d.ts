@@ -11,7 +11,7 @@ declare module 'styled-components' {
 
     palette: {
       primary: string;
-      secundary: string;
+      secondary: string;
 
       text: IPalette;
       background: IPalette;

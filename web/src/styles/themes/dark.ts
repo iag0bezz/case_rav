@@ -3,13 +3,13 @@ import { DefaultTheme } from 'styled-components';
 const theme: DefaultTheme = {
   id: 'dark',
   palette: {
-    primary: '',
-    secundary: '',
+    primary: '#19181F',
+    secondary: '#725AC1',
     text: {
-      primary: '',
+      primary: '#fff',
     },
     background: {
-      primary: ''
+      primary: '#1E1E26'
     }
   }
 }
