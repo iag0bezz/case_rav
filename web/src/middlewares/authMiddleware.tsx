@@ -12,8 +12,6 @@ const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
   const { user, checking } = useAuth();
   const location = useLocation();
 
-  console.log('CHECKING>', checking)
-
   if (checking) {
     return (
       <div style={{ position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>

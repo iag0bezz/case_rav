@@ -1,5 +1,3 @@
-import { DndProvider } from 'react-dnd'
-import { HTML5Backend } from 'react-dnd-html5-backend'
 import { 
   BrowserRouter,
   Routes as Switch,
@@ -7,49 +5,46 @@ import {
 } from 'react-router-dom'
 
 import GlobalStyle from './styles/global'
-import { ThemeProvider } from 'styled-components';
-import { useState, useCallback } from 'react';
+import { DefaultTheme, ThemeProvider } from 'styled-components';
+import { useCallback } from 'react';
+
+import usePersistedState from 'hooks/usePersistedState';
 
 import { AuthContextProvider } from './contexts/authContext';
+import { GroupContextProvider } from 'contexts/groupContext';
 
-import {
-  Auth
-} from './pages'
+import * as S from 'pages'
 
-import React from 'react';
 import light from './styles/themes/light'
 import dark from './styles/themes/dark'
 
 import ProtectedRoute from './middlewares/authMiddleware';
 
-
 function App() {
-  const [theme, setTheme] = useState(dark)
+  const [theme, setTheme] = usePersistedState<DefaultTheme>('theme', light)
 
   const toggleTheme = useCallback(() => {
-    console.log(theme)
     setTheme(theme.id === 'light' ? dark : light)
-  }, [theme]);
+  }, [setTheme, theme.id]);
 
   return (
     <>
       <BrowserRouter>
         <AuthContextProvider>
-          <ThemeProvider theme={theme}>
-            <DndProvider backend={HTML5Backend}>
+          <GroupContextProvider>
+            <ThemeProvider theme={theme}>
               <Switch>
-                <Route path='/' element={<Auth toggleTheme={toggleTheme} />} />
+                <Route path='/' element={<S.Auth toggleTheme={toggleTheme} />} />
 
                 <Route path='/dashboard' element={
                   <ProtectedRoute>
-                    <h1>Olha só, dashboard.</h1>
+                    <S.Dashboard toggleTheme={toggleTheme} />
                   </ProtectedRoute>
                 } />
               </Switch>
-            </DndProvider>
-
-            <GlobalStyle />
-          </ThemeProvider>
+              <GlobalStyle />
+            </ThemeProvider>
+          </GroupContextProvider>
         </AuthContextProvider>
       </BrowserRouter>
     </>

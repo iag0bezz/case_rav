@@ -13,6 +13,11 @@ declare module 'styled-components' {
       primary: string;
       secondary: string;
 
+      group: {
+        primary: string;
+        card: string;
+      }
+
       text: IPalette;
       background: IPalette;
     }

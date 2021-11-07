@@ -10,6 +10,10 @@ const theme: DefaultTheme = {
     },
     background: {
       primary: '#1E1E26'
+    },
+    group: {
+      primary: '#725AC1',
+      card: '#19181F'
     }
   }
 }

@@ -1,13 +1,13 @@
 import IComponentProps from "components/@types/componentProps";
 import { useAuth } from "hooks/useAuth";
-import React, { useContext, useState } from "react";
-import { ThemeContext } from "styled-components";
+import React, { useState } from "react";
 
 import * as S from './styles'
 
+import { ReactComponent as NotificationIcon } from 'assets/notification.svg';
+
 export default function Header({ toggleTheme }: IComponentProps) {
-  const { user } = useAuth();
-  const { id } = useContext(ThemeContext)
+  const { user, signOut } = useAuth();
 
   const [search, setSearch] = useState('');
 
@@ -19,7 +19,12 @@ export default function Header({ toggleTheme }: IComponentProps) {
         value={search} 
       />}
       <S.ReservatedContainer>
-        
+        <S.Notification>
+          <NotificationIcon />
+        </S.Notification>
+        <S.LogoutButton onClick={signOut}>
+          Sair
+        </S.LogoutButton>
       </S.ReservatedContainer>
     </S.Container>
   )

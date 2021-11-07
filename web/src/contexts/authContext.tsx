@@ -1,4 +1,5 @@
-import React, { createContext, ReactNode, useEffect, useState } from 'react';
+import usePersistedState from 'hooks/usePersistedState';
+import { createContext, ReactNode, useEffect, useState } from 'react';
 
 type User = {
   id: number;
@@ -15,6 +16,7 @@ type AuthContextType = {
   user: User | undefined;
   checking: boolean;
   signIn: ({ email, password }: FormProps) => Promise<void>;
+  signUp: ({ email, password }: FormProps) => Promise<void>;
   signOut: () => void;
 }
 
@@ -25,11 +27,10 @@ type AuthContextProviderProps = {
 export const AuthContext = createContext({} as AuthContextType);
 
 export function AuthContextProvider(props: AuthContextProviderProps) {
-  const [user, setUser] = useState<User>();
+  const [user, setUser] = usePersistedState<User | undefined>('user');
   const [checking, setChecking] = useState<boolean>(true);
 
   useEffect(() => {
-    console.log(user)
     if (user) {
       const { email, name } = user;
 
@@ -40,10 +41,14 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
     }
 
     setChecking(false);
-  }, [user])
+  }, [setUser, user])
 
-  async function signIn() {
+  async function signIn({ email, password }: FormProps) {
     setUser({ id: 1, email: 'iago.beserra1@gmail.com', name: 'Iago Beserra' })
+  }
+
+  async function signUp({ email, password }: FormProps) {
+
   }
 
   async function signOut() {
@@ -51,7 +56,7 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
   }
 
   return (
-    <AuthContext.Provider value={{ user, checking, signIn, signOut }}>
+    <AuthContext.Provider value={{ user, checking, signIn, signUp, signOut }}>
       {props.children}
     </AuthContext.Provider>
   )

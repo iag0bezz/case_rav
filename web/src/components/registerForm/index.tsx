@@ -7,33 +7,33 @@ type FormProps = {
 }
 
 interface IProps {
-  signIn({ email, password }: FormProps): Promise<void>;
+  signUp({ email, password }: FormProps): Promise<void>;
   callback?: () => void;
 }
 
-export default function LoginForm({ signIn, callback }: IProps) {
+export default function RegisterForm({ signUp, callback }: IProps) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const handleClick = (event: any) => {
     event.preventDefault();
 
-    return signIn({ email, password })
+    return signUp({ email, password })
   }
 
   return (
     <S.Container>
       <S.Title>
-        Acessar
+        Cadastro
       </S.Title>
 
       <S.Form>
         <input onChange={(value) => setEmail(value.target.value)} value={email} type='text' placeholder='Seu endereço de e-mail' />
         <input onChange={(value) => setPassword(value.target.value)} value={password} type='password' placeholder='Sua senha de acesso' />
 
-        <span>Ainda não possui uma conta? <p onClick={callback}>Cadastre-se agora!</p></span>
+        <span>Já possui uma conta? <p onClick={callback}>Autenticar-se agora!</p></span>
 
-        <button onClick={(event) => handleClick(event)}>Autenticar</button>
+        <button onClick={(event) => handleClick(event)}>Cadastrar</button>
       </S.Form>
     </S.Container>
   )
