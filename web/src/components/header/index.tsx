@@ -7,7 +7,7 @@ import * as S from './styles'
 import { ReactComponent as NotificationIcon } from 'assets/notification.svg';
 
 export default function Header({ toggleTheme }: IComponentProps) {
-  const { user, signOut } = useAuth();
+  const { signOut } = useAuth();
 
   const [search, setSearch] = useState('');
 

@@ -21,6 +21,45 @@ export const Title = Styled.h4`
   padding: 16px;
 `
 
+export const EditorContainer = Styled.div`
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  align-items: center;
+`
+
+export const EditorInput = Styled.input`
+  margin: 8px;
+  padding: 8px;
+  border: none;
+  border-radius: 4px;
+  color: #333;
+  width: 10rem;
+`
+
+type EditorOptionProps = {
+  background: string;
+  color: string;
+}
+
+export const EditorOption = Styled.button<EditorOptionProps>`
+  background: ${props => props.background};
+  color: ${props => props.color};
+
+  border: none;
+  width: 32px;
+  height: 24px;
+
+  margin: 2px;
+  cursor: pointer;
+
+  transition: filter 0.2 ease;
+
+  &:hover {
+    filter: brightness(1.2)
+  }
+`
+
 export const CardContainer=  Styled.div`
   padding: 3px;
 `
@@ -28,7 +67,7 @@ export const CardContainer=  Styled.div`
 export const CreateButtonContainer = Styled.div`
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   flex-direction: column;
 `
 
@@ -37,8 +76,14 @@ export const CreateButton = Styled.button`
 
   border: none;
   border-radius: 50%;
-  background: green;
+  background: ${props => props.theme.palette.secondary};
   width: 30px;
   height: 30px;
   cursor: pointer;
+
+  transition: filter 0.2 ease;
+
+  &:hover {
+    filter: brightness(1.2)
+  }
 `

@@ -1,8 +1,10 @@
 import usePersistedState from 'hooks/usePersistedState';
 import { createContext, ReactNode, useEffect, useState } from 'react';
 
+import { auth, firebase } from 'services/firebase';
+
 type User = {
-  id: number;
+  id: string;
   email: string;
   name: string;
 }
@@ -31,28 +33,76 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
   const [checking, setChecking] = useState<boolean>(true);
 
   useEffect(() => {
-    if (user) {
-      const { email, name } = user;
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      console.log(user);
+      if (user) {
+        const { displayName, email, uid } = user;
 
-      if (!email && !name) {
-        setUser(undefined)
-        return
+        if (!email) {
+          return;
+        }
+
+        setUser({
+          id: uid,
+          email: email,
+          name: displayName || email
+        });
       }
-    }
 
-    setChecking(false);
-  }, [setUser, user])
+      setChecking(false);
+    })
+
+    return () => {
+      unsubscribe();
+    }
+  }, [setUser])
 
   async function signIn({ email, password }: FormProps) {
-    setUser({ id: 1, email: 'iago.beserra1@gmail.com', name: 'Iago Beserra' })
+    await auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+
+    const result = await auth.signInWithEmailAndPassword(email, password);
+
+    if (result.user) {
+      const { email, uid, displayName } = result.user;
+
+      if (!email) {
+        return;
+      }
+
+      setUser({
+        id: uid,
+        email: email,
+        name: displayName || email,
+      });
+    }
   }
 
   async function signUp({ email, password }: FormProps) {
+    await auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
 
+    const result = await auth.createUserWithEmailAndPassword(email, password);
+
+    if (result.user) {
+      const { email, uid, displayName } = result.user;
+    
+      if (!email) {
+        return;
+      }
+
+      setUser({
+        id: uid,
+        email: email,
+        name: displayName || email,
+      });
+    }
   }
 
   async function signOut() {
-    setUser(undefined)
+    if (user) {
+      auth.signOut();
+
+      setUser(undefined);
+    }
   }
 
   return (

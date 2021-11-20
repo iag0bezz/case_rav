@@ -10,7 +10,7 @@ interface IProps {
 
 export default function Card({ card, index }: IProps) {
   return (
-    <Draggable draggableId={String("card-" + card.id)} index={index}>
+    <Draggable draggableId={card.key} index={index}>
       {provided => (
         <S.Container
           {...provided.draggableProps}
